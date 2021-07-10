@@ -1,3 +1,6 @@
+# This application is modfied form of previous two files
+# The temperature, humidity and dew points are now sent to cloud
+# using mqtt protocol. The provider is thingspeak.com
 
 import math
 # MQTT library for micropython
