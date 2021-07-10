@@ -1,28 +1,24 @@
+# This file is used to create a webserver in esp32 which serve a webpage with temperature and humidity readings
+# from a dht11 sensor. The webpage can be accessed over wifi with the ip address.
+
 
 # function to read temperature and humidity data
 def read_sensor():
     global temp, hum  # created global variable to store read data
     temp = hum = 0
-
     # import the data
     # try and exception is useful to prevent the web server from crashing when  not able to read from the sensor
     try:
         sensor.measure()  # invoke measure method in sensor
         temp = sensor.temperature()
         hum = sensor.humidity()
-        if (isinstance(temp, float) and isinstance(hum, float)) or (isinstance(temp, int) and isinstance(hum, int)):
-            msg = (b'{0:3.1f},{1:3.1f}'.format(temp, hum))
-            hum = round(hum, 2)
-            return(msg)
-        else:
-            return('Invalid sensor readings.')
+
     except OSError as e:
         return('Failed to read sensor.')
 
+
 # function to return the HTML page
 # display table with two rows and two columns
-
-
 def web_page():
     html = """<!DOCTYPE HTML><html>
 <head>

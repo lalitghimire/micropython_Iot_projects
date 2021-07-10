@@ -1,5 +1,13 @@
-# Complete project details at https://RandomNerdTutorials.com
+# Extenstion to the previous exercise with a dew point subroutine added
+# boot.py is same which setup wifi connection
+
+# This file is used to create a webserver in esp32 which serve a webpage with temperature and humidity readings
+# from a dht11 sensor. The webpage can be accessed over wifi with the ip address.
+
+# Import math library
 import math
+
+# function to read temperature and humidity data
 
 
 def read_sensor():
@@ -9,14 +17,9 @@ def read_sensor():
         sensor.measure()
         temp = sensor.temperature()
         hum = sensor.humidity()
-        # if (isinstance(temp, float) and isinstance(hum, float)) or (isinstance(temp, int) and isinstance(hum, int)):
-        #msg = (b'{0:3.1f},{1:3.1f}'.format(temp, hum))
-        #hum = round(hum, 2)
-        # return(msg)
-        # else:
-        # return('Invalid sensor readings.')
-        # dew point formula used: Magnus-Tetens formula (Sonntag90)
-        # https://www.omnicalculator.com/physics/dew-point
+# dew point calculation from measured temperature and humidity
+# dew point formula used: Magnus-Tetens formula (Sonntag90)
+# ref. https://www.omnicalculator.com/physics/dew-point
 
         def dew_point(t, h):
             a, b = 17.62, 243.12    # Magnus-Tetens constants
@@ -28,6 +31,8 @@ def read_sensor():
         return('Failed to read sensor.')
 
 
+# function to return the HTML page
+# display table with two rows and two columns
 def web_page():
     html = """<!DOCTYPE HTML><html>
 <head>
@@ -72,10 +77,12 @@ def web_page():
     return html
 
 
+# create webserver
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind(('', 80))
+s.bind(('', 80))  # bind socket to address and port
 s.listen(5)
 
+# listen for requests and send response
 while True:
     conn, addr = s.accept()
     print('Got a connection from %s' % str(addr))
