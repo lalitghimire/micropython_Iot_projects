@@ -1,3 +1,5 @@
+### This library might not be needed in new version of esp32 firmware
+
 try:
     import usocket as socket
 except:
